@@ -1,8 +1,9 @@
 const handleProfileGet =  (req, res, db) => {
-	const {id} = req.params;
+	const {id_email} = req.params;
+	const [id, email] = id_email.split('_');
 
 	db.select('*').from('users')
-		.where({id})
+		.where({id, email})
 		.then(recSet=>{
 			recSet.length ? res.json(recSet[0]) : res.status(400).json('No User found');
 		})
