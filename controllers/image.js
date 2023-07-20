@@ -33,13 +33,11 @@ const handleDetectAPI = (req, res) => {
       },
       body: raw
    };
-console.log('about to fetch from Clarifai', requestOptions)
 	fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/outputs", requestOptions)
-		.then(data => {console.log('returned data', data); return res.json(data) })
-		.catch(err => {console.log('errored',err); res.status(400).json('Facial Detection API Error') })		
+		.then(response => response.text())
+		.then(result => res.json(result))
+		.catch(err => res.status(400).json('Facial Detection API Error'))		
 };
-
-
 
 const handleImage = (req, res, db) => {
 	const {id} = req.body;
