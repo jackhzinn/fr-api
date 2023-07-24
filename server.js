@@ -3,15 +3,23 @@ const app = express();
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 
+
+const PORT = process.env.PORT ?? 3000;
+const DB_HOST = process.env.DB_HOST ?? 'localhost';
+const DB_PORT = process.env.DB_PORT ?? 5432;
+const DB_USER = process.env.DB_USER ?? 'postgres';
+const DB_PSWD = process.env.DB_PSWD ?? 'test';
+const DB_NAME = process.env.DB_NAME ?? 'facial_recognition';
+
 const knex = require('knex')
 const db = knex({
 				  client: 'pg',
 				  connection: {
-				    host : '127.0.0.1', //localhost
-				    port : 5432,
-				    user : 'postgres',
-				    password : 'test',
-				    database : 'facial_recognition'
+				    host : DB_HOST, //localhost
+				    port : DB_PORT,
+				    user : DB_USER,
+				    password : DB_PSWD,
+				    database : DB_NAME
 				  }
 				});
 
@@ -38,6 +46,6 @@ app.put('/image', (req, res) => { image.handleImage(req, res, db) });
 app.post('/imageDetect', (req, res) => { image.handleDetectAPI(req, res) });
 
 
-app.listen(3000, ()=>{
-	console.log('app is running');
+app.listen(PORT, ()=>{
+	console.log(`app is running on port ${PORT}`);
 });
